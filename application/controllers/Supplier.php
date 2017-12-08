@@ -66,14 +66,21 @@ class Supplier extends CI_Controller {
 		$this->supplier->delete_by_id($id);
 		echo json_encode(array("status" => TRUE));
 	}
-	public function dummy_supplier(){
-		for($i=0;$i<=100;$i++){
-			$data=array(
-				'nama_supplier' => "Supplier Dummy ".$i,
-				'alamat' => "Alamat ".$i,
-				'telp' => $i);
-			$this->db->insert('supplier',$data);
-		}
-		echo $i." Data berhasil diinput";
+	public function cetak_pdf(){
+		ini_set('max_execution_time', 300);
+		$data['supplier'] = $this->db->get('supplier');
+		$sumber = $this->load->view('supplier/supplier_pdf', $data, true);
+		$html = $sumber;
+		$pdfFilePath = "DataPemasok".date('Y-m-d H:i').".pdf";
+		$pdf = $this->m_pdf->load();
+
+		$pdf->AddPage('P');
+		$pdf->useSubstitutions = false;
+		$pdf->simpleTables = true;
+
+		//$pdf->WriteHTML($stylesheet, 1);
+		$pdf->WriteHTML($html);
+		$pdf->Output($pdfFilePath, "D");
+		exit();
 	}
 }

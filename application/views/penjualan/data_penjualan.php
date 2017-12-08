@@ -5,7 +5,7 @@
             <br>
             <a href="<?php echo base_url('index.php/transaksi/tambah_penjualan')?>" class="btn btn-success">Tambah Penjualan</a>
             <button class="btn btn-default" onclick="reload_table()"><i class="glyphicon glyphicon-refresh"></i> Reload</button>
-            <a href="<?php echo base_url('index.php/pembelian/cetak_pdf')?>" class="btn btn-info" target="_blank">Cetak PDF</a><br><br>
+            <a href="<?php echo base_url('index.php/transaksi/cetak_pdf')?>" class="btn btn-info" target="_blank">Cetak PDF</a><br><br>
         </div>
         <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>

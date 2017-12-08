@@ -6,15 +6,15 @@
 		<th>Kode Penjualan</th>
 		<th>Tanggal</th>
 		<th>Jumlah</th>
-		<th>Nama Supplier</th>
+		<th>Nama Pembeli</th>
 	</tr>
 	<?php
-		foreach ($pembelian as $data){?>
+		foreach($pembelian->result() as $data){?>
 			<tr>
-				<td><?php echo $data->id_pembelian?></td>
+				<td><?php echo $data->id_penjualan?></td>
 				<td><?php echo $data->tgl_trans?></td>
 				<td><?php echo format_rp($data->jml_trans)?></td>
-				<td><?php echo $data->nama_supplier?></td>
+				<td><?php echo $data->nama?></td>
 			</tr>
 	<?php
 		}

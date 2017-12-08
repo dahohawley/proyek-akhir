@@ -5,7 +5,7 @@
             <br>
             <button class="btn btn-success" onclick="add_coa()"><i class="glyphicon glyphicon-plus"></i> Tambah COA</button>
             <button class="btn btn-default" onclick="reload_table()"><i class="glyphicon glyphicon-refresh"></i> Reload</button>
-            <a href="<?php echo base_url('index.php/gudang/cetak_pdf')?>" class="btn btn-info" target="_blank">Cetak PDF</a><br><br>
+            <a href="<?php echo base_url('index.php/coa/cetak_pdf')?>" class="btn btn-info" target="_blank">Cetak PDF</a><br><br>
         </div>
         <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>

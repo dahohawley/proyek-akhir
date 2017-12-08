@@ -157,4 +157,23 @@
 						</tr>";
 				}
 			}
+			public function cetak_pdf(){
+				ini_set('max_execution_time', 300);
+				$this->db->select('id_penjualan,tgl_trans,jml_trans,anggota.nama');
+				$this->db->from('nota_penjualan');
+				$this->db->join('anggota','anggota.no_anggota = nota_penjualan.no_anggota');
+		        $data['pembelian'] = $this->db->get();
+		        $sumber = $this->load->view('penjualan/penjualan_barang_pdf', $data, true);
+		        $html = $sumber;
+		        $pdfFilePath = "LaporanPenjualan---".date('Y-m-d H:i').".pdf";
+		        $pdf = $this->m_pdf->load();
+		        $pdf->AddPage('P');
+		        $pdf->useSubstitutions = false;
+		        $pdf->simpleTables = true;
+		        //$pdf->WriteHTML($stylesheet, 1);
+		        $pdf->WriteHTML($html);
+		        
+		        $pdf->Output($pdfFilePath, "D");
+		        exit();
+			}
 	}

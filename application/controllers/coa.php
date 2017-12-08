@@ -63,4 +63,21 @@ class Coa extends CI_Controller {
 		$this->coa->delete_by_id($id);
 		echo json_encode(array("status" => TRUE));
 	}
+	public function cetak_pdf(){
+		ini_set('max_execution_time', 300);
+	    $data['coa'] = $this->db->get('coa')->result();
+	    $sumber = $this->load->view('coa/coa_pdf', $data, TRUE);
+	    $html = $sumber;
+	    $pdfFilePath = "Chart_of_accounts(COA)".date('Y-m-d H:i').".pdf";
+
+	    $pdf = $this->m_pdf->load();
+		$pdf->AddPage('P');
+	    $pdf->useSubstitutions = false;
+	    $pdf->simpleTables = true;
+	    //$pdf->WriteHTML($stylesheet, 1);
+	    $pdf->WriteHTML($html);
+	    
+	    $pdf->Output($pdfFilePath, "D");
+	    exit();
+	}
 }
