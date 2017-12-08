@@ -60,6 +60,22 @@
 					$this->template->load('template','keuangan/bayar_piutang',$data);
 				}
 			}
+			public function cetak_pdf_piutang(){
+				ini_set('max_execution_time', 300);
+		        $data['piutang'] = $this->db->query("SELECT `id_angsurpenj`, `a`.`tgl_trans`, `a`.`id_penjualan`, sum(a.jml_trans) as jumlah_angsuran, `b`.`jml_trans`, `c`.`nama` FROM `angsuran_penj` `a` JOIN `nota_penjualan` `b` ON `a`.`id_penjualan` = `b`.`id_penjualan` JOIN `anggota` `c` ON `b`.`no_anggota` = `c`.`no_anggota` GROUP BY `a`.`id_penjualan` HAVING `jumlah_angsuran` < `jml_trans` ORDER BY `id_angsurpenj`")->result();
+		        $sumber = $this->load->view('keuangan/piutang_pdf', $data, true);
+		        $html = $sumber;
+		        $pdfFilePath = "TagihanPiutang".date('Y-m-d H:i').".pdf";
+		        $pdf = $this->m_pdf->load();
+		        $pdf->AddPage('P');
+		        $pdf->useSubstitutions = false;
+		        $pdf->simpleTables = true;
+		        //$pdf->WriteHTML($stylesheet, 1);
+		        $pdf->WriteHTML($html);
+		        
+		        $pdf->Output($pdfFilePath, "D");
+		        exit();
+			}
 		//utang
 			public function utang(){
 				$this->template->load('template','keuangan/utang_v');
@@ -112,6 +128,22 @@
 					$data['detail'] = $this->model->get_detail($id_pembelian);
 					$this->template->load('template','keuangan/bayar_angsuran',$data);
 				}
+			}
+			public function cetak_pdf_utang(){
+				ini_set('max_execution_time', 300);
+		        $data['utang'] = $this->db->query("SELECT `angsuran_pmb`.`id_pembelian`, `tanggal`, `jml_trans`, sum(jumlah_angsuran) as jumlah_angsuran, `pembelian`.`id_supplier`, `supplier`.`nama_supplier` FROM `angsuran_pmb` JOIN `pembelian` ON `pembelian`.`id_pembelian` = `angsuran_pmb`.`id_pembelian` JOIN `supplier` ON `pembelian`.`id_supplier` = `supplier`.`id_supplier` GROUP BY `angsuran_pmb`.`id_pembelian` HAVING `jumlah_angsuran` < `jml_trans` ORDER BY `id_pembelian` ASC ")->result();
+		        $sumber = $this->load->view('keuangan/utang_pdf', $data, true);
+		        $html = $sumber;
+		        $pdfFilePath = "TagihanPiutang".date('Y-m-d H:i').".pdf";
+		        $pdf = $this->m_pdf->load();
+		        $pdf->AddPage('P');
+		        $pdf->useSubstitutions = false;
+		        $pdf->simpleTables = true;
+		        //$pdf->WriteHTML($stylesheet, 1);
+		        $pdf->WriteHTML($html);
+		        
+		        $pdf->Output($pdfFilePath, "D");
+		        exit();
 			}
 		//misc
 			public function detail_piutang($id_angsurpenj){
