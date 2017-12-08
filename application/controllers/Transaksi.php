@@ -20,6 +20,7 @@
 					$row[] = $transaksi->id_penjualan;
 					$row[] = $transaksi->tgl_trans;
 					$row[] = format_rp($transaksi->jml_trans);
+					$row[] = $transaksi->nama;
 					$row[] = '<button class="btn btn-primary" onclick="showModal('."'$transaksi->id_penjualan'".')">Lihat detail</button>';
   					$data[] = $row;
 				}

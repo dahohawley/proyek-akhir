@@ -13,6 +13,7 @@
                     <th width="80">Kode Penjualan</th>
                     <th width="80">Tanggal</th>
                     <th width="100">Jumlah</th>
+                    <th width="80">Nama Pembeli</th>
                     <th width="10"></th>
                 </tr>
             </thead>
@@ -24,6 +25,7 @@
                 <th width="80">Kode Penjualan</th>
                 <th width="180">Tanggal</th>
                 <th width="80">Jumlah</th>
+                <th width="80">Nama Pembeli</th>
                 <th></th>
             </tr>
             </tfoot>
