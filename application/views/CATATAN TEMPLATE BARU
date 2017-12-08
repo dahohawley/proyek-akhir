@@ -1,0 +1,9 @@
+CATATAN TEMPLATE BARU :
+TAMBAHKAN ELEMENT PADA VIEW : 
+CONTOH ADA DI barang_view.
+tambahkan atribute : 
+1. <div class="row bg-white has-shadow"> TAMBAHKAN PADA LINE 1 PADA SETIAP VIEW. DITUTUP PADA AKHIR ELEMENT . CONTOH AKHIR PADA LINE 37.
+2. <div class="col-md-12"> PADA TOMBOL CONTOH PADA BARIS 2. DITUTUP DI AKHIR TOMBOL. CONTOH PADA LINE 9 
+3. GANTI <div class="modal-dialog"> DENGAN <div class="modal-dialog modal-lg">
+4. REPLACE col-md-9 JADI col-md-12
+
