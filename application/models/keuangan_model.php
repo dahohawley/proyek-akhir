@@ -78,4 +78,12 @@ class Keuangan_model extends CI_Model {
 		$transaksi = $query->notrans+1;
 		return $nomor_trans = "ANG-".$transaksi;
 	}
+	public function insert_jurnal($no_akun,$posisi,$nominal,$id_trans){
+		$data = array(
+			'no_akun' => $no_akun,
+			'posisi_dr_cr' => $posisi,
+			'nominal' => $nominal,
+			'id_trans' => $id_trans);
+		$this->db->insert('jurnal',$data);
+	}
 }

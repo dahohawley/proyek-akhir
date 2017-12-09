@@ -28,6 +28,7 @@
 		}
 		public function barang_habis(){
 			$this->db->where('stok < ','10');
+			$this->db->limit('7');
 			return $this->db->get('barang')->result();
 		}
 	}

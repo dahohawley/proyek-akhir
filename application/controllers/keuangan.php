@@ -53,6 +53,8 @@
 						'jml_trans' => $jumlah_bayar,
 						'id_penjualan' => $id_penjualan);
 					$this->db->insert('angsuran_penj',$data);
+					$this->keuangan_model->insert_jurnal('111','d',$jumlah_bayar,$id_angsuran_penj);
+					$this->keuangan_model->insert_jurnal('120','d',$jumlah_bayar,$id_angsuran_penj);
 					redirect('keuangan/piutang');
 				}else{
 					$data['id_penjualan'] = $id_penjualan;
@@ -157,4 +159,6 @@
 						</tr>";
 				}
 			}
+		//jurnal
+
 	}

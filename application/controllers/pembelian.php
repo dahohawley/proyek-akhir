@@ -134,8 +134,6 @@
 						$this->db->set('stok',$stok_akhir);
 						$this->db->update('barang');
 					}
-				//pembayaran 
-				
 				//insert ke angsuran_pmb
 					//get id_angsuran()
 						$id_angsuran = $this->model->get_id_angsuran();
@@ -152,7 +150,16 @@
 							'jumlah_angsuran' => $total_bayar,
 							'id_pembelian' => $id_pembelian);
 						$this->db->insert('angsuran_pmb',$data);
-					redirect('pembelian');
+				//insert jurnal 
+					if($total_bayar < $total){
+						$this->keuangan_model->insert_jurnal('102','d',$total,$id_pembelian);
+						$this->keuangan_model->insert_jurnal('201','k',$total,$id_pembelian);	
+					}else{
+						$this->keuangan_model->insert_jurnal('102','d',$total,$id_pembelian);
+						$this->keuangan_model->insert_jurnal('111','k',$total,$id_pembelian);
+					}
+					
+				redirect('pembelian');
 			}
 			public function daftar_barang(){
 				$list = $this->gudang->get_datatables();
