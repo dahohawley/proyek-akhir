@@ -1,9 +1,9 @@
 <div class="card">
 	<div class="card-header">
-		<h4>Form Piutang</h4>
+		<h4>Form Utang</h4>
 	</div>
 	<div class="card-body">
-	    <form action="<?php echo base_url('index.php/keuangan/bayarkan_piutang/'.$id_pembelian)?>" method="POST" id="form-pembayaran">
+	    <form action="<?php echo base_url('index.php/keuangan/bayarkan_utang/'.$id_pembelian)?>" method="POST" id="form-pembayaran">
 		    <div class="form-group">
 				<label>Kode Pembelian</label>
 				<input type="text" name="id_pembelian" value="<?php echo $id_pembelian?>" class="form-control" readonly>

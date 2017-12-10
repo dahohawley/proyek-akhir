@@ -94,7 +94,7 @@
 					$row[] = format_rp($angsuran->jumlah_angsuran);
 					$row[] = format_rp($angsuran->jml_trans);
 					$row[] = $angsuran->nama_supplier;
-					$row[] = '<a class="btn btn-sm btn-primary" href="'.base_url('index.php/keuangan/bayarkan_piutang/').$angsuran->id_pembelian.'" title="Edit"> Bayarkan</a>';
+					$row[] = '<a class="btn btn-sm btn-primary" href="'.base_url('index.php/keuangan/bayarkan_utang/').$angsuran->id_pembelian.'" title="Edit"> Bayarkan</a>';
 					$data[] = $row;
 				}
 
@@ -124,6 +124,8 @@
 						'jumlah_angsuran' => $jumlah_bayar,
 						'id_pembelian' => $id_pembelian);
 					$this->db->insert('angsuran_pmb',$data);
+					$this->keuangan_model->insert_jurnal('201','d',$jumlah_bayar,$id_pembelian);
+					$this->keuangan_model->insert_jurnal('111','k',$jumlah_bayar,$id_pembelian);
 					redirect('keuangan/piutang');
 				}else{
 					$data['id_pembelian'] = $id_pembelian;
