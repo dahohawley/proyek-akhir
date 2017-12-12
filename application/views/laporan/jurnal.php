@@ -35,7 +35,7 @@
                 <h4 class="judul">KPRI Rukun Makmur</h4>
             </div>
             <div class="card-body">
-                <table class="table table-hover">
+                <table class="table table-hover table-bordered">
                     <thead>
                         <tr>
                             <th>Tanggal Transaksi</th>
@@ -48,20 +48,22 @@
                     </thead>
                     <tbody>
                         <?php
+                        $spasi = '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp';
                             foreach($jurnal as $data){?>
                                 <tr>
                                     <td><?php echo $data->tgl_trans?></td>
                                     <td><?php echo $data->id_trans?></td>
                                     <td><?php echo $data->no_akun?></td>
-                                    <td><?php echo $data->nama_akun?></td>
                                     <?php
                                         if($data->posisi_dr_cr == 'd'){?>
-                                            <td><?php echo $data->nominal?></td>
+                                            <td><?php echo $data->nama_akun?></td>
+                                            <td><?php echo format_rp($data->nominal)?></td>
                                             <td></td>    
                                     <?php
                                         }else{?>
+                                            <td><?php echo $spasi.$data->nama_akun?></td>
                                             <td></td>
-                                            <td><?php echo $data->nominal?></td>
+                                            <td><?php echo format_rp($data->nominal)?></td>
                                     <?php
                                         }
                                     ?>

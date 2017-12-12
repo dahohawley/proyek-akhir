@@ -5,6 +5,9 @@
 			$this->load->model('model_laporan','model');
 			$this->load->library('pagination');
 		}
+		public function index(){
+			$this->jurnal();
+		}
 		public function jurnal(){
 			if(isset($_POST['btnsubmit'])){
 				$this->model->tanggal_awal = $this->input->post('tanggal_awal');
@@ -17,29 +20,36 @@
 			$jumlah_data = $this->model->jumlah_data();
 			$config['base_url'] = base_url().'index.php/laporan/jurnal/';
 			$config['total_rows'] = $jumlah_data;
-			$config['per_page'] = 2;
-			//config bootstrap pagination
-				$config['full_tag_open'] = '<ul class="pagination">';
-		        $config['full_tag_close'] = '</ul>';
-		        $config['first_link'] = false;
-		        $config['last_link'] = false;
-		        $config['first_tag_open'] = '<li>';
-		        $config['first_tag_close'] = '</li>';
-		        $config['prev_link'] = '&laquo';
-		        $config['prev_tag_open'] = '<li class="prev">';
-		        $config['prev_tag_close'] = '</li>';
-		        $config['next_link'] = '&raquo';
-		        $config['next_tag_open'] = '<li>';
-		        $config['next_tag_close'] = '</li>';
-		        $config['last_tag_open'] = '<li>';
-		        $config['last_tag_close'] = '</li>';
-		        $config['cur_tag_open'] = '<li class="active"><a href="#">';
-		        $config['cur_tag_close'] = '</a></li>';
-		        $config['num_tag_open'] = '<li>';
-		        $config['num_tag_close'] = '</li>';
+			$config['per_page'] = 20;
+			$config['full_tag_open'] = '<ul class="pagination pull-right">';
+		    $config['full_tag_close'] = '</ul>';
+		    $config['first_link'] = false;
+		    $config['last_link'] = false;
+		    $config['first_tag_open'] = '<li class="page-link">';
+		    $config['first_tag_close'] = '</li class="page-link">';
+		    $config['prev_link'] = 'Previous';
+		    $config['prev_tag_open'] = '<li class="page-link">';
+		    $config['prev_tag_close'] = '</li>';
+		    $config['next_link'] = 'Next';
+		    $config['next_tag_open'] = '<li class="page-link">';
+		    $config['next_tag_close'] = '</li>';
+		    $config['last_tag_open'] = '<li class="page-link">';
+		    $config['last_tag_close'] = '</li>';
+		    $config['cur_tag_open'] = '<li class="paginate_button page-item previous disabled" id="table_previous"><a href="#" class="page-link">';
+		    $config['cur_tag_close'] = '</a></li>';
+		    $config['num_tag_open'] = '<li class="page-link">';
+		    $config['num_tag_close'] = '</li>';
 			$from = $this->uri->segment(3);
 			$this->pagination->initialize($config);		
 			$data['jurnal'] = $this->model->data($config['per_page'],$from);
 			$this->template->load('template','laporan/jurnal',$data);
+		}
+		public function buku_besar(){
+			$this->my_page->set_page('Buku Besar');
+			$data['akun'] = $this->db->get('coa')->result();
+			$this->template->load('template','laporan/buku_besar',$data);
+		}
+		public function get_bukbesar($no_akun = ''){
+			
 		}
 	}

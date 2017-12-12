@@ -92,6 +92,12 @@
                  <li><a href="<?php echo base_url('index.php/keuangan/utang')?>">Utang</a></li>
               </ul>
             </li>
+            <li><a href="#laporan" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-list"></i></i>Laporan</a>
+              <ul id="laporan" class="collapse list-unstyled">
+                <li><a href="<?php echo base_url('index.php/laporan')?>">Jurnal Umum</a></li>
+                 <li><a href="<?php echo base_url('index.php/laporan/buku_besar/')?>">Buku Besar</a></li>
+              </ul>
+            </li>
           </ul><span class="heading">Data</span>
           <ul>
             <li><a href="#masterdata" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-database"></i></i>Master data</a>
