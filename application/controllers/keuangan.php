@@ -124,8 +124,8 @@
 						'jumlah_angsuran' => $jumlah_bayar,
 						'id_pembelian' => $id_pembelian);
 					$this->db->insert('angsuran_pmb',$data);
-					$this->keuangan_model->insert_jurnal('201','d',$jumlah_bayar,$id_pembelian);
-					$this->keuangan_model->insert_jurnal('111','k',$jumlah_bayar,$id_pembelian);
+					$this->keuangan_model->insert_jurnal('201','d',$jumlah_bayar,$id_angsuran_pmb);
+					$this->keuangan_model->insert_jurnal('111','k',$jumlah_bayar,$id_angsuran_pmb);
 					redirect('keuangan/piutang');
 				}else{
 					$data['id_pembelian'] = $id_pembelian;
