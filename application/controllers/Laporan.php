@@ -50,6 +50,28 @@
 			$this->template->load('template','laporan/buku_besar',$data);
 		}
 		public function get_bukbesar($no_akun = ''){
-			
+			$query = $this->model->get_bukbesar($no_akun);
+			$saldo_kredit = 0;
+			$saldo_debit = 0;
+			foreach($query as $data){
+				echo '<tr>
+					<td>'.$data->no_akun.'</td>
+					<td>'.$data->nama_akun.'</td>';
+					if($data->posisi_dr_cr == "d"){
+						$saldo_debit = $saldo_debit + $data->nominal;
+						echo '<td>'.format_rp($data->nominal).'</td>
+						<td></td>
+						<td>'.format_rp($saldo_debit).'</td>
+						<td></td>'
+						;
+					}else{
+						$saldo_kredit = $saldo_kredit + $data->nominal;
+						echo '<td></td>
+						<td>'.format_rp($data->nominal).'</td>
+						<td></td>
+						<td>'.format_rp($saldo_kredit).'</td>';
+					}
+					'</tr>';
+			}
 		}
 	}

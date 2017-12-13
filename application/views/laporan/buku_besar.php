@@ -11,7 +11,6 @@
 			</div>
 			<div class="card-body">
 				<form>
-					<label>Pilih Akun</label>
 					<select class="form-control" id="no_akun" onchange="get_bukbesar(this.value)">
 						<option disabled="" selected="">Pilih akun</option>
 						<?php
@@ -34,6 +33,7 @@
 			</div>
 			<div class="card-body">
 				<table class="table table-hover table-bordered">
+					<thead>
 					<tr>
 						<th rowspan="2"><center>No Akun</center></th>
 						<th rowspan="2"><center>Nama Akun</center> </th>
@@ -45,6 +45,10 @@
 						<th><center>Debit</center></th>
 						<th><center>Kredit</center></th>
 					</tr>
+					</thead>
+					<tbody>
+						
+					</tbody>
 				</table>
 			</div>
 		</div>
@@ -55,11 +59,13 @@
 		$("#body_bukbes").hide();
 	});
 	function get_bukbesar(no_akun){
-		$("#body_bukbes").fadeOut("slow");
+		$("#body_bukbes").hide();
+		$("tbody").empty();
 		$.ajax({
 			url:"<?php echo site_url('laporan/get_bukbesar/')?>"+no_akun,
 			success:function(data){
-				$("#body_bukbes").fadeIn("slow");
+				$("#body_bukbes").fadeIn();
+				$("tbody").append(data);
 			}
 		});
 	}

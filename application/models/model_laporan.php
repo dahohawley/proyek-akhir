@@ -17,4 +17,9 @@
 			return count($query);
 			//return $this->db->get('user')->num_rows();
 		}
+		function get_bukbesar($no_akun){
+			$this->db->where('jurnal.no_akun',$no_akun);
+			$this->db->join('coa','coa.no_akun = jurnal.no_akun');
+			return $this->db->get('jurnal')->result();
+		}
 	}
