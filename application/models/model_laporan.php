@@ -22,4 +22,10 @@
 			$this->db->join('coa','coa.no_akun = jurnal.no_akun');
 			return $this->db->get('jurnal')->result();
 		}
+		function get_tot_pem(){
+			$this->db->select("sum(jml_trans) as total_pembelian");
+			$this->db->where('year(tgl_trans)',date('Y'));
+			$data = $this->db->get('pembelian')->row();
+			return $data->total_pembelian;
+		}
 	}

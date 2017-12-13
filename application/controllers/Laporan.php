@@ -96,7 +96,7 @@
 					<td>'.$coa->nama_akun.'</td>';
 				if($saldo < 0){
 					echo '
-					<td></td>
+					<td>-</td>
 					<td>'.format_rp(abs($saldo)).'</td>';
 				}elseif($saldo == 0){
 					echo'<td>-</td>
@@ -105,8 +105,15 @@
 				else{
 					echo '
 					<td>'.format_rp($saldo).'</td>
-					<td></td>';
+					<td>-</td>';
 				}
 			}
+		}
+		public function arus_kas(){
+			$this->my_page->set_page('Arus Kas');
+			$query = $this->db->query('SELECT sum(jml_trans) as total_penjualan FROM `nota_penjualan` WHERE `tgl_trans` between "2017-1-1" and "2017-12-31"')->row();
+			$data['penjualan'] = $query->total_penjualan;
+			$data['pembelian'] = $this->model->get_tot_pem();
+			$this->template->load('template','laporan/arus_kas',$data);
 		}
 	}
