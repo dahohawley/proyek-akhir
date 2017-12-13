@@ -74,4 +74,35 @@
 					'</tr>';
 			}
 		}
+		public function neraca_saldo(){
+			$this->my_page->set_page('Neraca Saldo');
+			$this->template->load('template','laporan/neraca_saldo');
+		}
+		public function get_neraca_saldo(){
+			$coa = $this->db->get('coa')->result();
+			foreach($coa as $coa){
+				$this->db->where('no_akun',$coa->no_akun);
+				$jurnal = $this->db->get('jurnal')->result();
+				$saldo = 0;
+				foreach($jurnal as $jurnal){
+					if($jurnal->posisi_dr_cr == 'd'){
+						$saldo = $saldo+$jurnal->nominal;
+					}elseif ($jurnal->posisi_dr_cr == 'k') {
+						$saldo = $saldo-$jurnal->nominal;	
+					}
+				}
+				echo '<tr>
+					<td>'.$coa->no_akun.'</td>
+					<td>'.$coa->nama_akun.'</td>';
+				if($saldo < 0){
+					echo '
+					<td></td>
+					<td>'.format_rp($saldo).'</td>';
+				}else{
+					echo '
+					<td>'.format_rp($saldo).'</td>
+					<td></td>';
+				}
+			}
+		}
 	}
