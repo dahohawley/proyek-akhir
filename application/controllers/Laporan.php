@@ -97,8 +97,12 @@
 				if($saldo < 0){
 					echo '
 					<td></td>
-					<td>'.format_rp($saldo).'</td>';
-				}else{
+					<td>'.format_rp(abs($saldo)).'</td>';
+				}elseif($saldo == 0){
+					echo'<td>-</td>
+					<td>-</td>';
+				}
+				else{
 					echo '
 					<td>'.format_rp($saldo).'</td>
 					<td></td>';

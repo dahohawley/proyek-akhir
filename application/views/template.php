@@ -96,7 +96,7 @@
               <ul id="laporan" class="collapse list-unstyled">
                 <li><a href="<?php echo base_url('index.php/laporan')?>">Jurnal Umum</a></li>
                  <li><a href="<?php echo base_url('index.php/laporan/buku_besar/')?>">Buku Besar</a></li>
-                 <li><a href="<?php echo base_url('index.php/laporan/buku_besar/')?>">Neraca Saldo</a></li>
+                 <li><a href="<?php echo base_url('index.php/laporan/neraca_saldo/')?>">Neraca Saldo</a></li>
                  <li><a href="<?php echo base_url('index.php/laporan/buku_besar/')?>">Buku Besar</a></li>
               </ul>
             </li>
