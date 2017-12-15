@@ -20,7 +20,7 @@
 			$jumlah_data = $this->model->jumlah_data();
 			$config['base_url'] = base_url().'index.php/laporan/jurnal/';
 			$config['total_rows'] = $jumlah_data;
-			$config['per_page'] = 20;
+			$config['per_page'] = 10;
 			$config['full_tag_open'] = '<ul class="pagination pull-right">';
 		    $config['full_tag_close'] = '</ul>';
 		    $config['first_link'] = false;
@@ -46,33 +46,52 @@
 		}
 		public function buku_besar(){
 			$this->my_page->set_page('Buku Besar');
+			$data['tahun'] = $this->db->query("SELECT year(tgl_trans) as tahun FROM `transaksi` group by year(tgl_trans)")->result();
 			$data['akun'] = $this->db->get('coa')->result();
 			$this->template->load('template','laporan/buku_besar',$data);
 		}
-		public function get_bukbesar($no_akun = ''){
-			$query = $this->model->get_bukbesar($no_akun);
-			$saldo_kredit = 0;
-			$saldo_debit = 0;
-			foreach($query as $data){
-				echo '<tr>
+		public function get_bukbesar($no_akun = '',$bulan='',$tahun=''){
+			$saldo_awal = $this->model->get_saldo_awal_buku_besar($tahun,$bulan,$no_akun);
+			$buku_besar = $this->model->get_bukbesar($no_akun,$bulan,$tahun);
+			echo '<tr>
+				<td></td>
+				<td>Saldo Awal</td>
+				<td></td>
+				<td></td>';
+				if($saldo_awal <= 0){
+					echo '<td></td>
+					<td>'.format_rp($saldo_awal).'</td></tr>';
+				}else{
+					echo '<td>'.format_rp($saldo_awal).'</td>
+					<td></td></tr>';	
+				}
+			
+			foreach($buku_besar as $data){
+				echo'<tr>
 					<td>'.$data->no_akun.'</td>
 					<td>'.$data->nama_akun.'</td>';
-					if($data->posisi_dr_cr == "d"){
-						$saldo_debit = $saldo_debit + $data->nominal;
-						echo '<td>'.format_rp($data->nominal).'</td>
-						<td></td>
-						<td>'.format_rp($saldo_debit).'</td>
-						<td></td>'
-						;
-					}else{
-						$saldo_kredit = $saldo_kredit + $data->nominal;
-						echo '<td></td>
+				if($data->posisi_dr_cr =='d'){
+					$saldo_awal = $saldo_awal + $data->nominal;
+					echo '
 						<td>'.format_rp($data->nominal).'</td>
 						<td></td>
-						<td>'.format_rp($saldo_kredit).'</td>';
-					}
-					'</tr>';
+					';
+				}else{
+					$saldo_awal = $saldo_awal - $data->nominal;
+					echo '
+						<td></td>
+						<td>'.format_rp($data->nominal).'</td>
+					';
+				}
+				if($saldo_awal > 0){
+				echo '<td>'.format_rp($saldo_awal).'</td>
+						<td></td>';
+				}else{
+				echo '<td></td>
+						<td>'.format_rp(str_replace("-",'',$saldo_awal)).'</td>';
+				}
 			}
+
 		}
 		public function neraca_saldo(){
 			$this->my_page->set_page('Neraca Saldo');
@@ -116,4 +135,5 @@
 			$data['pembelian'] = $this->model->get_tot_pem();
 			$this->template->load('template','laporan/arus_kas',$data);
 		}
+
 	}

@@ -17,13 +17,13 @@
 				foreach ($list as $angsuran) {
 					$no++;
 					$row = array();
-					$row[] = $angsuran->id_angsurpenj;
+					$row[] = $angsuran->id_penjualan;
 					$row[] = $angsuran->tgl_trans;
 					$row[] = format_rp($angsuran->jumlah_angsuran);
 					$row[] = format_rp($angsuran->jml_trans);
 					$row[] = $angsuran->nama;
 					$row[] = '<a class="btn btn-sm btn-primary" href="'.base_url('index.php/keuangan/bayarkan_piutang/').$angsuran->id_penjualan.'" title="Edit"> Bayarkan</a>';
-					$row[] = '<button class="btn btn-primary btn-sm" onclick="showModal('."'$angsuran->id_angsurpenj'".')">Lihat detail</button>';
+					$row[] = '<button class="btn btn-primary btn-sm" onclick="showModal('."'$angsuran->id_penjualan'".')">Lihat detail</button>';
 					$data[] = $row;
 				}
 
@@ -150,8 +150,8 @@
 		        exit();
 			}
 		//misc
-			public function detail_piutang($id_angsurpenj){
-				$this->db->where('id_angsurpenj',$id_angsurpenj);
+			public function detail_piutang($id_penjualan){
+				$this->db->where('id_penjualan',$id_penjualan);
 				$data = $this->db->get('angsuran_penj')->result();
 				foreach($data as $data){
 					echo "<tr>

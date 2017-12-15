@@ -18,7 +18,7 @@ function format_rp_table($a){
 	$angka = number_format($a, $jumlah_desimal, $pemisah_desimal, $pemisah_ribuan);
 	$table = "
 	<td>Rp.</td>
-	<td style='text-alignt:right;'>".$angka."</td>";
+	<td style='text-align:right;'>".$angka."</td>";
 	return $table;
 }
 ?>

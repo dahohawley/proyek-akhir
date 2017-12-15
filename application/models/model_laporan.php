@@ -17,15 +17,32 @@
 			return count($query);
 			//return $this->db->get('user')->num_rows();
 		}
-		function get_bukbesar($no_akun){
-			$this->db->where('jurnal.no_akun',$no_akun);
-			$this->db->join('coa','coa.no_akun = jurnal.no_akun');
-			return $this->db->get('jurnal')->result();
+		function get_bukbesar($no_akun,$bulan,$tahun){
+			$data = $this->db->query("SELECT tgl_trans,jurnal.no_akun,nama_akun,posisi_dr_cr,nominal FROM `jurnal` 
+							JOIN transaksi on jurnal.id_trans = transaksi.id_trans
+							join coa on coa.no_akun = jurnal.no_akun
+							where jurnal.no_akun = '".$no_akun."' and tgl_trans between '".$tahun."-".$bulan."-1' and '".$tahun."-".$bulan."-31'")->result();
+			return $data;
 		}
 		function get_tot_pem(){
 			$this->db->select("sum(jml_trans) as total_pembelian");
 			$this->db->where('year(tgl_trans)',date('Y'));
 			$data = $this->db->get('pembelian')->row();
 			return $data->total_pembelian;
+		}
+		function get_saldo_awal_buku_besar($tahun,$bulan,$no_akun){
+			$data = $this->db->query("SELECT tgl_trans,jurnal.no_akun,nama_akun,posisi_dr_cr,nominal FROM `jurnal` 
+							JOIN transaksi on jurnal.id_trans = transaksi.id_trans
+							join coa on coa.no_akun = jurnal.no_akun
+							where jurnal.no_akun = '".$no_akun."' and tgl_trans between '2017-01-01' and '".$tahun."-".($bulan-1)."-31'")->result();
+			$saldo = 0;
+			foreach($data as $data){
+				if($data->posisi_dr_cr == 'd'){
+					$saldo = $saldo +$data->nominal;
+				}else{
+					$saldo = $saldo-$data->nominal;
+				}
+			}
+			return $saldo;
 		}
 	}

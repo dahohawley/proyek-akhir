@@ -42,13 +42,13 @@
                             <th>ID Transaksi</th>
                             <th>Kode Akun</th>
                             <th>Keterangan</th>
-                            <th>Debet</th>
-                            <th>Kredit</th>
+                            <th colspan="2"><center>Debet</center></th>
+                            <th colspan="2"><center>Kredit</center></th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                        $spasi = '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp';
+                        $spasi = '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp';
                             foreach($jurnal as $data){?>
                                 <tr>
                                     <td><?php echo $data->tgl_trans?></td>
@@ -57,13 +57,15 @@
                                     <?php
                                         if($data->posisi_dr_cr == 'd'){?>
                                             <td><?php echo $data->nama_akun?></td>
-                                            <td><?php echo format_rp($data->nominal)?></td>
-                                            <td></td>    
+                                            <?php echo format_rp_table($data->nominal)?>
+                                            <td></td>   
+                                            <td></td> 
                                     <?php
                                         }else{?>
                                             <td><?php echo $spasi.$data->nama_akun?></td>
                                             <td></td>
-                                            <td><?php echo format_rp($data->nominal)?></td>
+                                            <td></td>
+                                            <?php echo format_rp_table($data->nominal)?>
                                     <?php
                                         }
                                     ?>
@@ -75,7 +77,7 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="6"><?php echo $this->pagination->create_links(); ?></td>
+                            <td colspan="8"><?php echo $this->pagination->create_links(); ?></td>
                         </tr>
                         
                     </tfoot>

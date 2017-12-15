@@ -10,16 +10,43 @@
 				Pilih Akun
 			</div>
 			<div class="card-body">
-				<form>
-					<select class="form-control" id="no_akun" onchange="get_bukbesar(this.value)">
-						<option disabled="" selected="">Pilih akun</option>
-						<?php
-							foreach($akun as $data){
-								echo get_opt($data->no_akun,$data->nama_akun);
-							}
-						?>
-					</select>
+				<form class="form-inline">
+					<div class="form-group">
+						<select class="mx-sm-3 form-control" id="akun">
+							<option disabled="" selected="">Pilih akun</option>
+							<?php
+								foreach($akun as $data){
+									echo get_opt($data->no_akun,$data->nama_akun);
+								}
+							?>
+						</select>	
+					</div>
+					<div class="form-group">
+						<select class="mx-sm-3 form-control" id="bulan">
+							<option selected="" disabled="">Bulan</option>
+							<?php 
+								for ($x = 1; $x <= 12; $x++) {?>
+									<option value="<?php echo $x?>"><?php echo $x?></option>
+							<?php
+							}?>
+						</select>
+					</div>
+					<div class="form-group"> 
+						<select class="mx-sm-3 form-control" id="tahun">
+							<option selected="" disabled="" >Tahun</option>
+							<?php
+								foreach($tahun as $data){?>
+									<option value="<?php echo $data->tahun?>"><?php echo $data->tahun?></option>
+							<?php
+								}
+							?>
+						</select>
+					</div>
+					
 				</form>
+				<div class="form-group">
+					<input type="submit" value="Submit" class="mx-sm-3 btn btn-primary" onclick="get_bukbesar()">
+				</div>
 			</div>
 		</div>
 	</div>
@@ -58,11 +85,14 @@
 	$(document).ready(function(){
 		$("#body_bukbes").hide();
 	});
-	function get_bukbesar(no_akun){
+	function get_bukbesar(){
 		$("#body_bukbes").hide();
 		$("tbody").empty();
+		var bulan = $("#bulan").val();
+		var akun = $("#akun").val();
+		var tahun = $("#tahun").val(); 
 		$.ajax({
-			url:"<?php echo site_url('laporan/get_bukbesar/')?>"+no_akun,
+			url:"<?php echo site_url('laporan/get_bukbesar/')?>"+akun+"/"+bulan+"/"+tahun,
 			success:function(data){
 				$("#body_bukbes").fadeIn();
 				$("tbody").append(data);
