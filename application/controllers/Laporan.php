@@ -95,14 +95,17 @@
 		}
 		public function neraca_saldo(){
 			$this->my_page->set_page('Neraca Saldo');
-			$this->template->load('template','laporan/neraca_saldo');
+			$data['tahun'] = $this->db->query("SELECT year(tgl_trans) as tahun FROM `transaksi` group by year(tgl_trans)")->result();
+			$this->template->load('template','laporan/neraca_saldo',$data);
 		}
-		public function get_neraca_saldo(){
+		public function get_neraca_saldo($bulan = '',$tahun = ''){
 			$coa = $this->db->get('coa')->result();
 			foreach($coa as $coa){
 				$this->db->where('no_akun',$coa->no_akun);
+				$this->db->join('transaksi','transaksi.id_trans = jurnal.id_trans');
+				$this->db->where('tgl_trans between "'.$tahun.'-'.$bulan.'-1"AND "'.$tahun.'-'.$bulan.'-31"');
 				$jurnal = $this->db->get('jurnal')->result();
-				$saldo = 0;
+				$saldo = $saldo_awal = $this->model->get_saldo_awal_buku_besar($tahun,$bulan,$coa->no_akun);
 				foreach($jurnal as $jurnal){
 					if($jurnal->posisi_dr_cr == 'd'){
 						$saldo = $saldo+$jurnal->nominal;
@@ -130,10 +133,44 @@
 		}
 		public function arus_kas(){
 			$this->my_page->set_page('Arus Kas');
-			$query = $this->db->query('SELECT sum(jml_trans) as total_penjualan FROM `nota_penjualan` WHERE `tgl_trans` between "2017-1-1" and "2017-12-31"')->row();
-			$data['penjualan'] = $query->total_penjualan;
-			$data['pembelian'] = $this->model->get_tot_pem();
+			$data['tahun'] = $this->db->query("SELECT year(tgl_trans) as tahun FROM `transaksi` group by year(tgl_trans)")->result();
 			$this->template->load('template','laporan/arus_kas',$data);
+		}
+		public function get_arus_kas($tahun,$bulan){
+			header('Content-type: application/json');
+			//get penjualan
+				$saldo_penjualan = $this->model->get_saldo_awal_buku_besar($tahun,$bulan,'501');
+				$this->db->where('no_akun','501');
+				$this->db->join('transaksi','transaksi.id_trans = jurnal.id_trans');
+				$this->db->where('tgl_trans between "'.$tahun.'-'.$bulan.'-1"AND "'.$tahun.'-'.$bulan.'-31"');
+				$jurnal = $this->db->get('jurnal')->result();
+				foreach($jurnal as $jurnal){
+					if($jurnal->posisi_dr_cr == 'd'){
+						$saldo_penjualan = $saldo_penjualan+$jurnal->nominal;
+					}elseif ($jurnal->posisi_dr_cr == 'k') {
+						$saldo_penjualan = $saldo_penjualan-$jurnal->nominal;	
+					}
+				}
+				$penjualan = str_replace("-","",$saldo_penjualan)*1;
+			//get persediaan barang dagang
+				$saldo_pbd = $this->model->get_saldo_awal_buku_besar($tahun,$bulan,'102');
+				$this->db->where('no_akun','102');
+				$this->db->join('transaksi','transaksi.id_trans = jurnal.id_trans');
+				$this->db->where('tgl_trans between "'.$tahun.'-'.$bulan.'-1"AND "'.$tahun.'-'.$bulan.'-31"');
+				$jurnal = $this->db->get('jurnal')->result();
+				foreach($jurnal as $jurnal){
+					if($jurnal->posisi_dr_cr == 'd'){
+						$saldo_pbd = $saldo_pbd+$jurnal->nominal;
+					}elseif ($jurnal->posisi_dr_cr == 'k') {
+						$saldo_pbd = $saldo_pbd-$jurnal->nominal;	
+					}
+				}
+				$pbd = str_replace("-","",$saldo_pbd);
+			$json = array(
+				'penjualan' => format_rp($penjualan),
+				'pbd' => format_rp($pbd),
+				'ak_op' => format_rp($penjualan-$pbd));
+			echo json_encode($json);
 		}
 
 	}

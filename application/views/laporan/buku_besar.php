@@ -45,7 +45,7 @@
 					
 				</form>
 				<div class="form-group">
-					<input type="submit" value="Submit" class="mx-sm-3 btn btn-primary" onclick="get_bukbesar()">
+					<input type="submit" value="Cari" class="mx-sm-3 btn btn-primary" onclick="get_bukbesar()">
 				</div>
 			</div>
 		</div>
