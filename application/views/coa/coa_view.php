@@ -12,8 +12,8 @@
                 <tr>
                     <th width="80">Kode Akun</th>
                     <th width="180">Nama Akun</th>
-                    <th width="80">Saldo</th>
-                    <th style="width:125px;">Action</th>
+                    <!-- <th width="80">Saldo</th>
+                    <th style="width:125px;">Action</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -23,8 +23,8 @@
             <tr>
                 <th width="80">Kode Akun</th>
                 <th width="180">Nama Akun</th>
-                <th width="80">Saldo</th>
-                <th>Action</th>
+                <!-- <th width="80">Saldo</th>
+                <th>Action</th> -->
             </tr>
             </tfoot>
         </table>
@@ -212,13 +212,6 @@
                                 <span class="help-block"></span>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Saldo</label>
-                            <div class="col-md-12">
-                                <input name="saldo" id="saldo" placeholder="Saldo" class="form-control" type="text">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
                     </div>   
                     <div class="modal-footer">
                         <input type="submit" name="btnsubmit" class="btn btn-primary" value="Simpan"> 
@@ -244,10 +237,6 @@
                 required: true,
                 number: true
             },
-            saldo: {
-                required: true,
-                number: true
-            },
           },
           messages:{
             nama_akun: {
@@ -257,10 +246,6 @@
             no_akun: {
                 required: "Kode Akun tidak boleh kosong.",
                 number: "Kode Akun hanya bisa diisi oleh angka."
-            },
-            saldo: {
-                required: "Saldo tidak boleh kosong.",
-                number: "Saldo hanya dapat diisi oleh angka."
             },
           },
           submitHandler: function(form) {

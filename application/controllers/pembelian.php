@@ -153,7 +153,8 @@
 				//insert jurnal 
 					if($total_bayar < $total){
 						$this->keuangan_model->insert_jurnal('102','d',$total,$id_pembelian);
-						$this->keuangan_model->insert_jurnal('201','k',$total,$id_pembelian);	
+						$this->keuangan_model->insert_jurnal('201','k',$total-$total_bayar,$id_pembelian);	
+						$this->keuangan_model->insert_jurnal('111','k',$total_bayar,$id_pembelian);	
 					}else{
 						$this->keuangan_model->insert_jurnal('102','d',$total,$id_pembelian);
 						$this->keuangan_model->insert_jurnal('111','k',$total,$id_pembelian);

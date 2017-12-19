@@ -54,7 +54,7 @@
 						'id_penjualan' => $id_penjualan);
 					$this->db->insert('angsuran_penj',$data);
 					$this->keuangan_model->insert_jurnal('111','d',$jumlah_bayar,$id_angsuran_penj);
-					$this->keuangan_model->insert_jurnal('120','d',$jumlah_bayar,$id_angsuran_penj);
+					$this->keuangan_model->insert_jurnal('120','k',$jumlah_bayar,$id_angsuran_penj);
 					redirect('keuangan/piutang');
 				}else{
 					$data['id_penjualan'] = $id_penjualan;
@@ -126,7 +126,7 @@
 					$this->db->insert('angsuran_pmb',$data);
 					$this->keuangan_model->insert_jurnal('201','d',$jumlah_bayar,$id_angsuran_pmb);
 					$this->keuangan_model->insert_jurnal('111','k',$jumlah_bayar,$id_angsuran_pmb);
-					redirect('keuangan/piutang');
+					redirect('keuangan/utang');
 				}else{
 					$data['id_pembelian'] = $id_pembelian;
 					$data['detail'] = $this->model->get_detail($id_pembelian);

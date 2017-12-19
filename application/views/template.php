@@ -140,7 +140,7 @@
     <script type="text/javascript" src="<?php echo base_url('assets/')?>datatables/datatables.min.js"></script>
     <script src="<?php echo base_url('assets/materialAdmin/')?>vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="<?php echo base_url('assets/materialAdmin/')?>vendor/jquery-validation/jquery.validate.min.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
     <script src="<?php echo base_url('assets/materialAdmin/')?>js/charts-home.js"></script>
     <script src="<?php echo base_url('assets/materialAdmin/')?>js/front.js"></script>
   </body>

@@ -147,11 +147,17 @@
 				$data = array(
 					'no_akun' => '120',
 					'posisi_dr_cr' => 'd',
-					'nominal' => $total_transaksi,
+					'nominal' => $total_transaksi-$this->total_bayar,
 					'id_trans' => $this->id_penjualan);
 				$this->db->insert('jurnal',$data);
 				$data = array(
-					'no_akun' => '501',
+					'no_akun' => '111',
+					'posisi_dr_cr' => 'd',
+					'nominal' => $this->total_bayar,
+					'id_trans' => $this->id_penjualan);
+				$this->db->insert('jurnal',$data);
+				$data = array(
+					'no_akun' => '401',
 					'posisi_dr_cr' => 'k',
 					'nominal' => $total_transaksi,
 					'id_trans' => $this->id_penjualan);
@@ -164,7 +170,7 @@
 					'id_trans' => $this->id_penjualan);
 				$this->db->insert('jurnal',$data);
 				$data = array(
-					'no_akun' => '501',
+					'no_akun' => '401',
 					'posisi_dr_cr' => 'k',
 					'nominal' => $total_transaksi,
 					'id_trans' => $this->id_penjualan);

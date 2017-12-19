@@ -34,6 +34,7 @@
         </div>
     </div>
 </section>
+
 <!-- chart -->
 <section class="dashboard-header">
     <div class="container-fluid">
@@ -116,6 +117,11 @@
         </div>
     </div>
 </section>
+
+no akun penjualan 401 <br>
+pembelian uang mukanya dicatat di jurnal <br>     
+pembayaran utang belum masuk jurnal <br>
+
 <script type="text/javascript">
   /*global $, document*/
   $(document).ready(function(){
