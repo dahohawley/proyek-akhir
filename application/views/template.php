@@ -89,7 +89,8 @@
             <li><a href="#keuangan" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-money"></i></i>Keuangan</a>
               <ul id="keuangan" class="collapse list-unstyled">
                 <li><a href="<?php echo base_url('index.php/keuangan/piutang')?>">Piutang</a></li>
-                 <li><a href="<?php echo base_url('index.php/keuangan/utang')?>">Utang</a></li>
+                <li><a href="<?php echo base_url('index.php/keuangan/utang')?>">Utang</a></li>
+                <li><a href="<?php echo base_url('index.php/keuangan/penerimaan_jasa_usp')?>">Penerimaan Jasa Unit Simpan Pinjam</a></li>
               </ul>
             </li>
             <li><a href="#laporan" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-list"></i></i>Laporan</a>

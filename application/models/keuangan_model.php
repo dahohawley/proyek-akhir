@@ -86,4 +86,5 @@ class Keuangan_model extends CI_Model {
 			'id_trans' => $id_trans);
 		$this->db->insert('jurnal',$data);
 	}
+	
 }

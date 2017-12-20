@@ -7,6 +7,6 @@
 		}
 		function read_page(){
 			return $this->page_name;
-		}	
+		}
 	}
 	
