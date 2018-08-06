@@ -18,7 +18,7 @@
     <div class="form-group">
         <br>
         <br>
-        <button class="btn btn-primary btn-lg" onclick="CariBarang()">Cari barang</button>
+        <button class="btn btn-primary btn-lg"  id="cariBarang">Cari barang</button>
     </div>
 </div>
 <div class="col-md-12">
@@ -64,6 +64,7 @@
                 <td colspan="3" id="total_table">
                 <?php echo format_rp($total);?>
                 </td>
+                <input type="hidden" id="total_table2" value="<?php echo $total?>">
             </tr>
         </tfoot>
     </table>
@@ -165,19 +166,19 @@
          </div>
          <div class="modal-body">
          <form class="form-horizontal" action="#" id="form_detail">
-         	<input type="hidden" name="id_pembelian">
-         	<input type="hidden" name="id_barang_modal">
-			<div class="form-group">
-				<label>Nama Barang</label>
-				<input type="text" name="nama_barang" class="form-control" disabled>
-			</div>
-			<div class="form-group">
-				<label>Jumlah</label>
-				<input type="text" name="jumlah" class="form-control">
-			</div>
-			<div class="form-group">
-				<input type="submit" name="btnsubmit" class="btn btn-primary" value="Simpa"
-			</div>
+            <input type="hidden" name="id_pembelian">
+            <input type="hidden" name="id_barang_modal">
+            <div class="form-group">
+                <label>Nama Barang</label>
+                <input type="text" name="nama_barang" class="form-control" disabled>
+            </div>
+            <div class="form-group">
+                <label>Jumlah</label>
+                <input type="text" name="jumlah" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="submit" name="btnsubmit" class="btn btn-primary" value="Simpan">
+            </div>
          </div>
          </form>
       </div>

@@ -9,6 +9,11 @@ class Gudang extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->library('M_pdf');
 		$this->my_page->set_page('Gudang');
+		$check_session = $this->Account_model->check_session();
+		if(!$check_session){
+			$this->session->set_flashdata('notif', '<div class="alert alert-danger">Silahkan Login terlebih dahulu.</div>');
+			redirect('account');
+		}
 	}
 	public function index(){
 		$this->template->load('template','gudang/barang_view');
@@ -33,8 +38,7 @@ class Gudang extends CI_Controller {
 			$row[] = $barang->stok;
 
 			//add html for action
-			$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_barang('."'".$barang->id_barang."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-				  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_barang('."'".$barang->id_barang."'".')"><i class="glyphicon glyphicon-trash"></i> Delete</a>';
+			$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_barang('."'".$barang->id_barang."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>';
 		
 			$data[] = $row;
 		}
@@ -53,15 +57,22 @@ class Gudang extends CI_Controller {
 		echo json_encode($data);
 	}
 	public function ajax_add(){
-		$data = array(
-				'nama_barang' => $this->input->post('nama_barang'),
-				'harga_beli' => $this->input->post('harga_beli'),
-				'harga_jual' => $this->input->post('harga_jual'),
-				'kategori' => $this->input->post('jenis_barang'),
-				'stok' => $this->input->post('stok'),
-			);
-		$insert = $this->gudang->save($data);
-		echo json_encode(array("status" => TRUE));
+		$harga_beli = $this->input->post('harga_beli');
+		$harga_jual = $this->input->post('harga_jual');
+		if($harga_jual < $harga_beli){
+			echo 'alert("Harga Jual tidak bisa lebih rendah dari harga beli.");';
+		}else{
+			$data = array(
+					'nama_barang' => $this->input->post('nama_barang'),
+					'id_barang' => $this->input->post('barcode'),
+					'harga_beli' => $this->input->post('harga_beli'),
+					'harga_jual' => $this->input->post('harga_jual'),
+					'kategori' => $this->input->post('jenis_barang'),
+					'stok' => $this->input->post('stok'),
+				);
+			$insert = $this->gudang->save($data);
+			echo json_encode(array("status" => TRUE));
+		}
 	}
 	public function ajax_update(){
 		$data = array(

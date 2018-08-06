@@ -5,6 +5,11 @@
 			$this->load->model('pembelian_model','model');
 			$this->load->model('gudang_model','gudang');
 			$this->my_page->set_page('Pembelian');
+			$check_session = $this->Account_model->check_session();
+			if(!$check_session){
+				$this->session->set_flashdata('notif', '<div class="alert alert-danger">Silahkan Login terlebih dahulu.</div>');
+				redirect('account');
+			}
 		}
 		// laporan pembelian
 			public function index(){
@@ -65,7 +70,7 @@
 				$jumlah = 1;
 				$this->db->where('id_barang',$id_barang);
 				$query = $this->db->get('barang')->row();
-				$harga = $query->harga_jual;
+				$harga = $query->harga_beli;
 				$total = $harga*$jumlah;
 				//check detail_penjualan table
 				$this->db->where('id_pembelian',$id_pembelian);
@@ -152,11 +157,11 @@
 						$this->db->insert('angsuran_pmb',$data);
 				//insert jurnal 
 					if($total_bayar < $total){
-						$this->keuangan_model->insert_jurnal('102','d',$total,$id_pembelian);
-						$this->keuangan_model->insert_jurnal('201','k',$total-$total_bayar,$id_pembelian);	
+						$this->keuangan_model->insert_jurnal('511','d',$total,$id_pembelian);
+						$this->keuangan_model->insert_jurnal('211','k',$total-$total_bayar,$id_pembelian);	
 						$this->keuangan_model->insert_jurnal('111','k',$total_bayar,$id_pembelian);	
 					}else{
-						$this->keuangan_model->insert_jurnal('102','d',$total,$id_pembelian);
+						$this->keuangan_model->insert_jurnal('511','d',$total,$id_pembelian);
 						$this->keuangan_model->insert_jurnal('111','k',$total,$id_pembelian);
 					}
 					
@@ -208,7 +213,7 @@
 				$jumlah = $this->input->post('jumlah');
 				$this->db->where('id_barang',$id_barang);
 				$query = $this->db->get('barang')->row();
-				$harga = $query->harga_jual;
+				$harga = $query->harga_beli;
 				$this->db->set('jumlah',$jumlah);
 				$this->db->set('subtotal',$harga*$jumlah);
 				$this->db->where('id_pembelian',$id_pembelian);

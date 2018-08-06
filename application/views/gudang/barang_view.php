@@ -76,7 +76,6 @@
             $('#form')[0].reset(); // reset form on modals
             $('.form-group').removeClass('has-error'); // clear error class
             $('.help-block').empty(); // clear error string
-
             //Ajax Load data from ajax
             $.ajax({
                 url : "<?php echo site_url('gudang/ajax_edit/')?>/" + id,
@@ -84,8 +83,8 @@
                 dataType: "JSON",
                 success: function(data)
                 {
-
                     $('[name="id"]').val(data.id_barang);
+                    $('[name="barcode"]').val(data.id_barang);
                     $('[name="nama_barang"]').val(data.nama_barang);
                     $('[name="harga_beli"]').val(data.harga_beli);
                     $('[name="harga_jual"]').val(data.harga_jual);
@@ -112,7 +111,6 @@
             $('#btnSave').text('saving...'); //change button text
             $('#btnSave').attr('disabled',true); //set button disable 
             var url;
-
             if(save_method == 'add') {
                 url = "<?php echo site_url('gudang/ajax_add')?>";
             } else {
@@ -151,10 +149,14 @@
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
-                    alert('Error adding / update data');
+                    var harga_beli = $("#harga_beli").val();
+                    var harga_jual = $("#harga_jual").val();
+                    alert("Tejadi kesalahan saat menambahkan data");
+                    if(harga_jual < harga_beli){
+                        alert("Harga jual tidak bisa lebih kecil dari harga beli");
+                    }
                     $('#btnSave').text('save'); //change button text
                     $('#btnSave').attr('disabled',false); //set button enable 
-
                 }
             });
         }
@@ -213,6 +215,13 @@
                             <div class="col-md-12">
                                 <input name="nama_barang" id="nama_barang"  placeholder="Nama Barang" class="form-control" type="text" required="">
                                 <i id="nama_barang_message"></i>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Barcode</label>
+                            <div class="col-md-12">
+                                <input name="barcode" id="barcode"  placeholder="Barcode" class="form-control" type="text" required="">
+                                <i id="barcode_message"></i>
                             </div>
                         </div>
                         <div class="form-group">

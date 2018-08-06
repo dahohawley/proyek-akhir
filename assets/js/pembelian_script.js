@@ -78,10 +78,38 @@
  }
 
  function selesai_belanja() {
-     $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-     $('.modal-title').text('Selesai belanja'); // Set title to Bootstrap modal title
-     var total_table = $('#total_table').text();
-     $('#total_modal').val(total_table);
+     var total_table2 = $("#total_table2").val();
+
+     $('[name="total_bayar"]').rules('add', {
+         required: true,
+         number: true,
+         max: total_table2,
+         messages: {
+             required: "Jumlah tidak boleh kosong.",
+             number: "Jumlah hanya dapat diisi dengan angka.",
+             max: "Tidak bisa melebihi total transaksi"
+         },
+     });
+     if(total_table2 == 0){
+        $.notify({
+            // options
+            tittle: 'Masukkan Barang Terlebih Dahulu.',
+            icon: 'fa fa-exclamation-triangle',
+            message: 'Masukkan barang terlebih dahulu'
+        }, {
+            // settings
+            placement: {
+                align: 'center'
+            },
+            delay: "20",
+            type: 'danger'
+        });
+     }else{
+        var total_table = $('#total_table').text();
+         $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
+         $('.modal-title').text('Selesai belanja'); // Set title to Bootstrap modal title
+         $('#total_modal').val(total_table);
+     }
  }
  $(document).ready(function() {
      table = $('#table_barang').DataTable({
@@ -102,11 +130,17 @@
          }, ],
 
      });
+     $("#cariBarang").click(function(event){
+        event.preventDefault();
+        $('#barang_modal').modal('show'); // show bootstrap modal when complete loaded
+        $('.modal-title').text('Cari Barang'); // Set title to Bootstrap modal title
+
+     })
  });
- function CariBarang() {
-     $('#barang_modal').modal('show'); // show bootstrap modal when complete loaded
-     $('.modal-title').text('Cari Barang'); // Set title to Bootstrap modal title
- }
+ // function CariBarang() {
+ //     $('#barang_modal').modal('show'); // show bootstrap modal when complete loaded
+ //     $('.modal-title').text('Cari Barang'); // Set title to Bootstrap modal title
+ // }
  //validate form
  $(function() {
      $("#form2").validate({
@@ -114,6 +148,7 @@
              total_bayar: {
                  required: true,
                  number: "true",
+                 min: 1
              },
              supplier: "required",
          },
@@ -122,6 +157,7 @@
              total_bayar: {
                  required: "Total bayar tidak boleh kosong.",
                  number: "Total bayar hanya bisa diisi oleh angka.",
+                 min : "Total Bayar tidak boleh kurang dari 1."
              },
          }
      });
@@ -130,12 +166,14 @@
              jumlah: {
                  required: true,
                  number: "true",
+                 min: 1
              }
          },
          messages: {
              jumlah: {
                  required: "Jumlah tidak boleh kosong.",
                  number: "Jumlah hanya bisa diisi oleh angka.",
+                 min: "Tidak bisa kurang dari 1"
              },
          },
          submitHandler: function(form) {

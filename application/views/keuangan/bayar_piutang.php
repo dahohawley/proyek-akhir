@@ -28,14 +28,16 @@
 	    jumlah_bayar: {
 	      required: true,
 	      number: true,
-	      max: <?php echo $detail->jml_trans - $detail->telah_dibayar?>
+	      max: <?php echo $detail->jml_trans - $detail->telah_dibayar?>,
+	      min : 1
 	    }
 	  },
 	  messages:{
 	  	jumlah_bayar:{
 	  		required: "Jumlah bayar tidak boleh kosong.",
 	  		number: "Jumlah bayar hanya dapat diisi oleh angka 0-9",
-	  		max: "Tidak dapat membayar piutang lebih dari sisa piutang"	
+	  		max: "Tidak dapat membayar piutang lebih dari sisa piutang",
+	  		min: "Tidak bisa kurang dari 1."
 
 	  	}
 	  }

@@ -5,6 +5,7 @@ $(function(){
 	    	required : true,
 	    	maxlength : 30
 	    },
+	    barcode:"required",
 	    jenis_barang: "required",
 	    harga_beli: {
 	    	required: true,
@@ -24,10 +25,12 @@ $(function(){
 	  		required : "Nama barang tidak boleh kosong.",
 	  		maxlength: "Nama Barang tidak lebih dari 30 Karakter"
 	  	},
+	  	barcode: "Barcode tidak boleh kosong",
 	  	jenis_barang: "Jenis barang tidak boleh kosong.",
 	  	harga_jual:{
 	  		required: "Harga jual tidak boleh kosong.",
-	  		number: "Harga jual hanya dapat diisi dengan angka."
+	  		number: "Harga jual hanya dapat diisi dengan angka.",
+
 	  	},
 	  	harga_beli:{
 	  		required: "Harga beli tidak boleh kosong.",

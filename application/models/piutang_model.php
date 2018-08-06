@@ -74,7 +74,7 @@ class Piutang_model extends CI_Model {
 		return $this->db->get('angsuran_penj')->row();
 	}
 	public function get_id_angsuran(){
-		$query = $this->db->query("select concat('APJ-',(max(substring(id_angsurpenj,5))*1)+1) as notrans from angsuran_penj")->row();
+		$query = $this->db->query("select concat('APJ-',(max(substring(id_angsurpenj,5)*1))+1) as notrans from angsuran_penj")->row();
 		return $query->notrans;
 	}
 }

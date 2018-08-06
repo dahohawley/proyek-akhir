@@ -19,7 +19,7 @@
 							<option disabled="" selected="">Pilih Bulan</option>
 							<?php
 								for($i=1;$i<=12;$i++){?>
-									<option value="<?php echo $i?>"><?php echo $i?></option>
+									<option value="<?php echo $i?>"><?php echo get_monthname($i)?></option>
 							<?php
 								}
 							?>
@@ -39,6 +39,7 @@
 				</form>
 				<div class="form-group">
 					<input type="submit" value="Cari" class="mx-sm-3 btn btn-primary" id="btnCari">
+					<button id="btnCetak" class="btn btn-success" onclick="printDiv()"><i class="fa fa-print"></i> Cetak PDF</button>
 				</div>
 			</div>
 		</div>
@@ -53,7 +54,7 @@
 			</div>
 			<div class="card-body">
 				<table class="table table-hover table-bordered">
-					<thead>
+					<thead  style="text-align: center;">
 					<tr>
 						<th>No Akun</th>
 						<th>Nama Akun</th>
@@ -72,6 +73,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("#data-row").hide();
+		$("#btnCetak").hide();
 	});
 	$("#btnCari").click(function(){
 		var bulan = $("#bulan").val();
@@ -83,7 +85,24 @@
 			success:function(data){
 				$("tbody").append(data);
 				$("#data-row").fadeIn();
+				$("#btnCetak").show();
 			}
 		});
 	})
+	    function printDiv() {
+
+      var divToPrint=document.getElementById('data-row');
+
+      var newWin=window.open('','Print-Window');
+
+      newWin.document.open();
+      newWin.document.write('<html><head><link rel="stylesheet" href="<?php echo base_url('assets/materialAdmin/')?>vendor/bootstrap/css/bootstrap.min.css"><link rel="stylesheet" href="<?php echo base_url('assets/materialAdmin/')?>css/style.default.css" id="theme-stylesheet"></head>');
+
+      newWin.document.write('<body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
+
+      newWin.document.close();
+
+      setTimeout(function(){newWin.close();});
+
+    }
 </script>

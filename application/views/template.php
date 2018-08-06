@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <style type="text/css">
+ <head>
+     <style type="text/css">
       .error{
         color: red;
       }
@@ -48,7 +48,7 @@
             <div class="navbar-holder d-flex align-items-center justify-content-between">
               <!-- Navbar Header-->
               <div class="navbar-header">
-                <!-- Navbar Brand --><a href="index.html" class="navbar-brand">
+                <!-- Navbar Brand --><a href="<?php echo site_url('home')?>" class="navbar-brand">
                   <div class="brand-text brand-big">
                     <span>KPRI </span><strong> Rukun Makmur</strong>
                   </div>
@@ -57,6 +57,18 @@
               </div>
               <!-- Navbar Menu -->
               <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
+                <?php
+                if($this->session->userdata('hak_akses') == '1'){
+                  $hak_akses = 'ketua';
+                }elseif($this->session->userdata('hak_akses') == '2'){
+                  $hak_akses = 'bendahara';
+                }else{
+                  $hak_akses = 'kasir';
+                }  
+                  $this->load->view('menu/notif_'.$hak_akses);
+                ?>
+                <!-- Setting Account -->
+                <li class="nav-item"><a href="<?php echo base_url('index.php/account/setting')?>" class="nav-link logout"><i class="fa fa-gear"></i></a></li>
                 <!-- Logout    -->
                 <li class="nav-item"><a href="<?php echo base_url('index.php/account/logout')?>" class="nav-link logout">Logout<i class="fa fa-sign-out"></i></a></li>
               </ul>
@@ -69,49 +81,23 @@
         <nav class="side-navbar">
           <!-- Sidebar Header-->
           <div class="sidebar-header d-flex align-items-center">
-            <div class="avatar"><img href="<?php echo base_url('assets/materialAdmin/')?>img/avatar-1.jpg" alt="..." class="img-fluid rounded-circle"></div>
+            <div class="avatar"><img src="<?php echo base_url('assets/gambar/'.$this->session->userdata('fp'))?>" alt="..." class="img-fluid rounded-circle"></div>
             <div class="title">
-              <h1 class="h4"><?php echo $this->session->userdata('username');?></h1>
+              <h1 class="h4"><?php echo $this->session->userdata('nama');?></h1>
               <p><?php echo $this->session->userdata('username')?></p>
+              <p><?php echo date('Y-m-d');?></p>
             </div>
           </div>
-          <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
-          <ul class="list-unstyled">
-            <li>
-              <a href="<?php echo base_url('index.php/home')?>"><i class="fa fa-home"></i>Home</a>
-            </li>
-            <li><a href="#transaksi" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-exchange"></i></i>Transaksi</a>
-              <ul id="transaksi" class="collapse list-unstyled">
-                <li><a href="<?php echo base_url('index.php/Transaksi')?>">Penjualan</a></li>
-                <li><a href="<?php echo base_url('index.php/Pembelian/')?>">Pembelian</a></li>
-              </ul>
-            </li>
-            <li><a href="#keuangan" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-money"></i></i>Keuangan</a>
-              <ul id="keuangan" class="collapse list-unstyled">
-                <li><a href="<?php echo base_url('index.php/keuangan/piutang')?>">Piutang</a></li>
-                <li><a href="<?php echo base_url('index.php/keuangan/utang')?>">Utang</a></li>
-                <li><a href="<?php echo base_url('index.php/keuangan/penerimaan_jasa_usp')?>">Penerimaan Jasa Unit Simpan Pinjam</a></li>
-              </ul>
-            </li>
-            <li><a href="#laporan" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-list"></i></i>Laporan</a>
-              <ul id="laporan" class="collapse list-unstyled">
-                <li><a href="<?php echo base_url('index.php/laporan')?>">Jurnal Umum</a></li>
-                 <li><a href="<?php echo base_url('index.php/laporan/buku_besar/')?>">Buku Besar</a></li>
-                 <li><a href="<?php echo base_url('index.php/laporan/neraca_saldo/')?>">Neraca Saldo</a></li>
-                 <li><a href="<?php echo base_url('index.php/laporan/arus_kas/')?>">Arus Kas</a></li>
-              </ul>
-            </li>
-          </ul><span class="heading">Data</span>
-          <ul>
-            <li><a href="#masterdata" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-database"></i></i>Master data</a>
-              <ul id="masterdata" class="collapse list-unstyled">
-                <li><a href="<?php echo base_url('index.php/supplier/')?>">Pemasok</a></li>
-                <li><a href="<?php echo base_url('index.php/gudang/')?>">Barang</a></li>
-                <li><a href="<?php echo base_url('index.php/coa/')?>">COA</a></li>
-                <li><a href="#">Jenis Simpanan</a></li>
-              </ul>
-            </li>
-          </ul>
+          <!-- Sidebar Navidation Menus-->
+          <?php
+            if($this->session->userdata('hak_akses') == '1'){
+              $this->load->view('menu/menu_ketua');
+            }else if($this->session->userdata('hak_akses') == '2'){
+              $this->load->view('menu/menu_bendahara');
+            }else{
+              $this->load->view('menu/menu_kasir');
+            }
+          ?>
         </nav>
         <div class="content-inner">
           <header class="page-header">

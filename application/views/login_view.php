@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html >
 <head>
-
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
   <meta charset="UTF-8">
   <title>KPRI Rukun Makmur</title>
   <link href="<?php echo base_url();?>assets/css/bootstrap.min.css" rel="stylesheet">
@@ -172,6 +172,7 @@
 		<br>
 		<div class="notification">
 			<?php echo validation_errors();?>
+			<?php echo $this->session->flashdata('notif');?>
 			<?php echo $notification?>
 		</div>
 		<form action="<?php echo base_url()?>index.php/account/login" method="POST">

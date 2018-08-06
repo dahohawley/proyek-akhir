@@ -9,6 +9,11 @@ class Coa extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->library('M_pdf');
 		$this->my_page->set_page('COA');
+		$check_session = $this->Account_model->check_session();
+		if(!$check_session){
+			$this->session->set_flashdata('notif', '<div class="alert alert-danger">Silahkan Login terlebih dahulu.</div>');
+			redirect('account');
+		}
 	}
 	public function index(){
 		$this->template->load('template','coa/coa_view');

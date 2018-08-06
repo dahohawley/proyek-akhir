@@ -1,10 +1,17 @@
 <?php
+	use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
+	use Mike42\Escpos\Printer;
 	class Transaksi extends CI_CONTROLLER{
 		function __construct(){
 			parent::__construct();
 			$this->load->model('transaksi_model','transaksi');
 			$this->load->model('gudang_model','gudang');
 			$this->my_page->set_page('Transaksi');
+			$check_session = $this->Account_model->check_session();
+			if(!$check_session){
+				$this->session->set_flashdata('notif', '<div class="alert alert-danger">Silahkan Login terlebih dahulu.</div>');
+				redirect('account');
+			}
 		}
 		//data penjualan
 			public function index(){
@@ -142,7 +149,73 @@
 				$this->transaksi->total = $total;
 				$this->transaksi->total_bayar = $total_bayar;
 				$this->transaksi->simpan_transaksi();
+				// Cetak Nota
+				$this->cetak_nota($id_penjualan);
 				redirect('Transaksi');
+			}
+			public function cetak_nota($id_penjualan){
+				echo APPPATH . 'vendor\autoload.php';
+				// GET DATA
+					$this->db->select('LEFT(barang.nama_barang,15) as nama_barang,jumlah,subtotal');
+					$this->db->join('barang','barang.id_barang = detail_penjualan.id_barang');
+					$this->db->where('id_penjualan',$id_penjualan);
+					$query = $this->db->get('detail_penjualan')->result();
+					$items = array();
+				// CETAK
+				require_once(APPPATH.'vendor\autoload.php');
+				$connector = new WindowsPrintConnector("Receipt Printer");
+				$subtotals = 0;
+				foreach($query as $data){
+					$items[] = new item($data->nama_barang,format_rp($data->subtotal));
+					$subtotals = $subtotals + $data->subtotal;
+				}
+				$total = new item('Total',format_rp($subtotals));
+				/* Date is kept the same for testing */
+				// $date = date('l jS \of F Y h:i:s A');
+				$date = date('d-m-Y');
+
+				/* Start the printer */
+				$printer = new Printer($connector);
+
+				/* Print top logo */
+
+				/* Name of shop */
+				$printer -> setJustification(Printer::JUSTIFY_CENTER);
+				$printer -> text("KPRI Rukun Makmur.\n");
+				$printer -> text("------------------------------\n");
+				$printer -> selectPrintMode();
+				$printer -> feed();
+
+				/* Title of receipt */
+				$printer -> setEmphasis(true);
+				$printer -> text("Nota Penjualan\n");
+				$printer -> setEmphasis(false);
+
+				/* Items */
+				$printer -> setJustification(Printer::JUSTIFY_LEFT);
+				$printer -> setEmphasis(true);
+				$printer -> text(new item('', 'Rp.'));
+				$printer -> setEmphasis(false);
+				foreach ($items as $item) {
+				    $printer -> text($item);
+				}
+				$printer -> feed();
+				/* Tax and total */
+				$printer -> text($total);
+				$printer -> selectPrintMode();
+
+				/* Footer */
+				$printer -> feed(2);
+				$printer -> setJustification(Printer::JUSTIFY_CENTER);
+				$printer -> text("Terimakasih telah berbelanja di KPRI Rukun Makmur\n");
+				$printer -> feed(2);
+				$printer -> text($date . "\n");
+
+				/* Cut the receipt and open the cash drawer */
+				$printer -> cut();
+				$printer -> pulse();
+				$printer -> close();
+
 			}
 		//misc
 			public function detail_transaksi($id_penjualan){
@@ -176,4 +249,32 @@
 		        $pdf->Output($pdfFilePath, "D");
 		        exit();
 			}
+
 	}
+class item
+{
+    private $name;
+    private $price;
+    private $dollarSign;
+
+    public function __construct($name = '', $price = '', $dollarSign = false)
+    {
+        $this -> name = $name;
+        $this -> price = $price;
+        $this -> dollarSign = $dollarSign;
+    }
+    
+    public function __toString()
+    {
+        $rightCols = 8;
+        $leftCols = 20;
+        if ($this -> dollarSign) {
+            $leftCols = $leftCols / 2 - $rightCols / 2;
+        }
+        $left = str_pad($this -> name, $leftCols) ;
+        
+        $sign = ($this -> dollarSign ? '$ ' : '');
+        $right = str_pad($sign . $this -> price, $rightCols, ' ', STR_PAD_LEFT);
+        return "$left$right\n";
+    }
+}

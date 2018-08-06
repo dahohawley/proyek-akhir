@@ -1,4 +1,4 @@
-    <div class="row bg-white has-shadow">
+   <div class="row bg-white has-shadow">
         <div class="col-md-12">
             <br>
             <h3>Data Penjualan</h3>
@@ -71,12 +71,10 @@
                 }
             })
         }
-
         var save_method; //for save method string
         var table;
         $(document).ready(function() {
             table = $('#table').DataTable({ 
-
                 "processing": true, //Feature control the processing indicator.
                 "serverSide": true, //Feature control DataTables' server-side processing mode.
                 "order": [], //Initial no order.
@@ -85,7 +83,6 @@
                     "url": "<?php echo site_url('transaksi/read_penjualan')?>",
                     "type": "POST"
                 },
-
                 //Set column definition initialisation properties.
                 "columnDefs": [
                 { 
@@ -93,13 +90,11 @@
                     "orderable": false, //set not orderable
                 },
                 ],
-
             });
         });
          function reload_table()
         {
             table.ajax.reload(null,false); //reload datatable ajax 
         }
-
     </script>
 <!-- test modal -->

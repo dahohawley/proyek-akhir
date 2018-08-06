@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)file:///C:/xampp/htdocs/iseng/belajarJSON.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+	<title>JSON</title>
+</head>
+<body>
+	<p id="demo">John</p>
+
+
+<script type="text/javascript">
+	var myObj, myJSON, text, obj;
+	//Storing data:
+	myObj = { "name":"John", "age":31, "city":"New York" };
+	myJSON = JSON.stringify(myObj);
+	localStorage.setItem("testJSON", myJSON);
+
+	//Retrieving data:
+	text = localStorage.getItem("testJSON");
+	obj = JSON.parse(text);
+	document.getElementById("demo").innerHTML = obj.name;
+</script></body></html>

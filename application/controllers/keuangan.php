@@ -5,6 +5,11 @@
 			$this->load->model('keuangan_model','model');
 			$this->load->model('piutang_model','piutang');
 			$this->my_page->set_page('Keuangan');
+			$check_session = $this->Account_model->check_session();
+			if(!$check_session){
+				$this->session->set_flashdata('notif', '<div class="alert alert-danger">Silahkan Login terlebih dahulu.</div>');
+				redirect('account');
+			}
 		}
 		//piutang
 			public function piutang(){
@@ -54,7 +59,7 @@
 						'id_penjualan' => $id_penjualan);
 					$this->db->insert('angsuran_penj',$data);
 					$this->keuangan_model->insert_jurnal('111','d',$jumlah_bayar,$id_angsuran_penj);
-					$this->keuangan_model->insert_jurnal('120','k',$jumlah_bayar,$id_angsuran_penj);
+					$this->keuangan_model->insert_jurnal('113','k',$jumlah_bayar,$id_angsuran_penj);
 					redirect('keuangan/piutang');
 				}else{
 					$data['id_penjualan'] = $id_penjualan;
@@ -77,17 +82,6 @@
 		        
 		        $pdf->Output($pdfFilePath, "D");
 		        exit();
-			}
-			public function detail_piutang($id_penjualan){
-				$this->db->where('id_penjualan',$id_penjualan);
-				$data = $this->db->get('angsuran_penj')->result();
-				foreach($data as $data){
-					echo "<tr>
-							<td>".$data->id_angsurpenj."</td>
-							<td>".$data->tgl_trans."</td>
-							<td>".format_rp($data->jml_trans)."</td>
-						</tr>";
-				}
 			}
 		//utang
 			public function utang(){
@@ -135,7 +129,7 @@
 						'jumlah_angsuran' => $jumlah_bayar,
 						'id_pembelian' => $id_pembelian);
 					$this->db->insert('angsuran_pmb',$data);
-					$this->keuangan_model->insert_jurnal('201','d',$jumlah_bayar,$id_angsuran_pmb);
+					$this->keuangan_model->insert_jurnal('211','d',$jumlah_bayar,$id_angsuran_pmb);
 					$this->keuangan_model->insert_jurnal('111','k',$jumlah_bayar,$id_angsuran_pmb);
 					redirect('keuangan/utang');
 				}else{
@@ -160,31 +154,18 @@
 		        $pdf->Output($pdfFilePath, "D");
 		        exit();
 			}
-		//penerimaan jasa USP
-			public function penerimaan_jasa_usp(){
-				$data['tahun'] = $this->db->query("SELECT year(tgl_trans) as tahun FROM `transaksi` group by year(tgl_trans)")->result();
-				$this->template->load('template','keuangan/jasa_usp_v',$data);
-			}
-			public function get_penerimaan_usp(){
-				$this->db->Where('status !=','4');
-				$anggota = $this->db->get('anggota')->result();
-				$no=0;
-				$tahun = $this->input->post('tahun');
-				foreach($anggota as $data){
-					$no++;
-
-					echo '<tr>
-											<td>'.$no.'</td>
-											<td>'.$data->no_anggota.'</td>
-											<td>'.$data->nama.'</td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td>'.$this->model->get_jasa_sp_sw($data->no_anggota).'</td>
-											<td>'.$this->model->get_jasa_smn($data->no_anggota).'</td>
-											<td></td>
-										</tr>';
+		//misc
+			public function detail_piutang($id_penjualan){
+				$this->db->where('id_penjualan',$id_penjualan);
+				$data = $this->db->get('angsuran_penj')->result();
+				foreach($data as $data){
+					echo "<tr>
+							<td>".$data->id_angsurpenj."</td>
+							<td>".$data->tgl_trans."</td>
+							<td>".format_rp($data->jml_trans)."</td>
+						</tr>";
 				}
-
 			}
+		//jurnal
+
 	}

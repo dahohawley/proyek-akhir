@@ -7,7 +7,7 @@
 		var $table = 'nota_penjualan';
 		var $column_order = array('id_penjualan','tgl_trans','jml_trans','nama_anggota',null); 
 		var $column_search = array('id_penjualan'); 
-		var $order = array('id_penjualan' => 'asc'); 
+		var $order = array('id_penjualan'); 
 
 		public function __construct()
 		{
@@ -115,6 +115,21 @@
 		public function simpan_transaksi(){
 			$total_transaksi = $this->total*1;
 			$jumlah_bayar = $this->total_bayar*1;
+			$keuntungan = 0;
+			// Hitung keuntungan
+			$this->db->where('id_penjualan',$this->id_penjualan);
+			$query = $this->db->get('detail_penjualan')->result();
+			foreach($query as $data){
+				$id_barang = $data->id_barang;
+				// get selisih
+					$this->db->where('id_barang',$id_barang);
+					$query2 = $this->db->get('barang')->row();
+					$harga_beli = $query2->harga_beli;
+					$harga_jual = $query2->harga_jual;
+					$selisih = $harga_jual - $harga_beli;
+				$total_keuntungan = $selisih * $data->jumlah;
+				$keuntungan = $keuntungan + $total_keuntungan;
+			}
 			//update table transaksi
 				$data = array(
 					'tgl_trans' => date('Y-m-d'),
@@ -126,6 +141,7 @@
 					'tgl_trans' => date('Y-m-d'),
 					'jml_trans' => $this->total,
 					'no_anggota' => $this->no_anggota,
+					'keuntungan' => $keuntungan,
 					'status' => '1');
 				$this->db->where('id_penjualan',$this->id_penjualan);
 				$this->db->update('nota_penjualan',$data);
@@ -145,7 +161,7 @@
 				$this->db->insert('angsuran_penj',$data);
 			if($jumlah_bayar < $total_transaksi){
 				$data = array(
-					'no_akun' => '120',
+					'no_akun' => '113',
 					'posisi_dr_cr' => 'd',
 					'nominal' => $total_transaksi-$this->total_bayar,
 					'id_trans' => $this->id_penjualan);
@@ -157,7 +173,7 @@
 					'id_trans' => $this->id_penjualan);
 				$this->db->insert('jurnal',$data);
 				$data = array(
-					'no_akun' => '401',
+					'no_akun' => '411',
 					'posisi_dr_cr' => 'k',
 					'nominal' => $total_transaksi,
 					'id_trans' => $this->id_penjualan);
@@ -170,11 +186,18 @@
 					'id_trans' => $this->id_penjualan);
 				$this->db->insert('jurnal',$data);
 				$data = array(
-					'no_akun' => '401',
+					'no_akun' => '411',
 					'posisi_dr_cr' => 'k',
 					'nominal' => $total_transaksi,
 					'id_trans' => $this->id_penjualan);
 				$this->db->insert('jurnal',$data);
 			}
+			// update stok
+				$this->db->where('id_penjualan',$this->id_penjualan);
+				$q = $this->db->get('detail_penjualan')->result();
+				foreach($q as $data){
+					$this->db->query("UPDATE barang set stok = (stok - ".$data->jumlah.") WHERE id_barang ='".$data->id_barang."'");
+				}
 		}
+		
 	}

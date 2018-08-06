@@ -86,6 +86,4 @@ class Coa_model extends CI_Model {
 		$this->db->where('no_akun', $id);
 		$this->db->delete($this->table);
 	}
-
-
 }

@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row bg-white has-shadow">
             <!-- Item -->
-            <div class="col-xl-4 col-sm-6">
+            <div class="col-xl-6 col-sm-6">
                 <div class="item d-flex align-items-center">
                     <div class="icon bg-violet"><i class="fa fa-money"></i></div>
                     <div class="title"><span>Total<br>Penjualan</span>
@@ -11,7 +11,7 @@
                 </div>
             </div>
             <!-- Item -->
-            <div class="col-xl-4 col-sm-6">
+            <div class="col-xl-6 col-sm-6">
                 <div class="item d-flex align-items-center">
                     <div class="icon bg-orange"><i class="fa fa-exchange"></i></div>
                     <div class="title"><span>Total<br>Pembelian</span>
@@ -20,17 +20,6 @@
                 </div>
             </div>
             <!-- Item -->
-            <div class="col-xl-4 col-sm-6">
-                <div class="item d-flex align-items-center">
-                    <div class="icon bg-green"><i class="icon-bill"></i></div>
-                    <div class="title"><span>New<br>Invoices</span>
-                        <div class="progress">
-                            <div role="progressbar" style="width: 40%; height: 4px;" aria-valuenow="{#val.value}" aria-valuemin="0" aria-valuemax="100" class="progress-bar bg-green"></div>
-                        </div>
-                    </div>
-                    <div class="number"><strong>40</strong></div>
-                </div>
-            </div>
         </div>
     </div>
 </section>
@@ -87,7 +76,7 @@
                     <?php
                       $jumlah_data = count($barang_habis);
                       if($jumlah_data <= 0){
-                        echo "<br><br><br><br><center><h4>Stok bahan baku tercukupi <i class='fa fa-check'></i><h4></center><br>
+                        echo "<br><br><br><br><center><h4>Stok barang dagang tercukupi <i class='fa fa-check'></i><h4></center><br>
                         <br>
                         <br>
                         <br>";
@@ -117,11 +106,6 @@
         </div>
     </div>
 </section>
-
-no akun penjualan 401 <br>
-pembelian uang mukanya dicatat di jurnal <br>     
-pembayaran utang belum masuk jurnal <br>
-
 <script type="text/javascript">
   /*global $, document*/
   $(document).ready(function(){
@@ -213,7 +197,7 @@ pembayaran utang belum masuk jurnal <br>
                     pointBorderWidth: 1,
                     pointHoverRadius: 5,
                     pointHoverBackgroundColor: gradient2,
-                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                    pointHoverBorderColor: "rgba(220,220,225,1)",
                     pointHoverBorderWidth: 2,
                     pointRadius: 1,
                     pointHitRadius: 10,

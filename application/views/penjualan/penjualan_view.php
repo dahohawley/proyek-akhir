@@ -73,7 +73,7 @@
 <script src="<?php echo base_url('assets/js/jquery.validate.js')?>"></script>
 <script type="text/javascript">
     var base_url = "<?php echo base_url()?>";
-   
+    var sisa_stok = 0;
 </script>
 <script src="<?php echo base_url('assets/js/penjualan_script.js')?>"></script>
 <div class="modal fade" id="modal_form" role="dialog">
@@ -91,7 +91,8 @@
                 </div>
                 <div class="form-group">
                     <label>Anggota</label>
-                    <select class="form-control" name="id_anggota">
+                    <select class="form-control" name="id_anggota" id="id_anggota">
+                        <option selected disabled value>Pilih Anggota</option>
                     <?php
                         foreach($anggota as $data){
                             echo get_opt($data->no_anggota,$data->nama);
@@ -169,13 +170,14 @@
                 <input type="hidden" name="harga">
                 <input type="hidden" name="id_penjualan">
                 <input type="hidden" name="id_barang_modal">
+                <input type="hidden" name="sisa_stok">
                 <div class="form-group">
                     <label>Nama Barang</label>
                     <input type="text" name="nama_barang" class="form-control" readonly="">
                 </div>
                 <div class="form-group">
                     <label>Jumlah</label>
-                    <input type="text" name="jumlah" class="form-control">
+                    <input type="text" name="jumlah" class="form-control" id="jumlah">
                 </div>
                 <div class="form-group">
                     <input type="submit" name="btnsubmit" class="btn btn-primary" value="Simpan">
